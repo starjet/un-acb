@@ -31,10 +31,20 @@ namespace un_acb
                 }
             }
             FileStream fs = new FileStream(args[1], FileMode.Open);
-            CriAcbFile af = new CriAcbFile(fs, 0, cueIdPrefix);
+            AcbHelper af = new AcbHelper(fs, 0, cueIdPrefix);
             fs.Close();
-            af.ExtractAll();
+            af.Extract(Path.GetFileName(args[1]) + "_");
             Environment.Exit(0);
         }
+    }
+
+    class AcbHelper : CriAcbFile
+    {
+        public void Extract(string dest)
+        {
+            ExtractAllUsingCueList(dest);
+        }
+
+        public AcbHelper(FileStream fs, int i, bool cueIdPrefix) : base(fs, i, cueIdPrefix) { }
     }
 }
